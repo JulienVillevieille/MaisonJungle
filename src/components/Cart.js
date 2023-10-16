@@ -1,10 +1,12 @@
+import '../styles/Cart.css';
+
 function Cart() {
                 
     const plantNames = ["Monstera", "Lierre", "Bouquet de Fleurs"];
     const plantPrices = [8, 10, 15];
 
     return (
-        <div>
+        <div className="lmj-cart">
         <h2>Panier</h2>
         <ul>
             <li>{plantNames[0]} - {plantPrices[0]}€</li>
