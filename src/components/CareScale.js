@@ -13,12 +13,19 @@ function CareScale({scaleValue, careType}) {
         );
 
     return (
-        <div>
+        <div onClick={ () => handleClickCareScale(scaleValue, careType)}>
             {range.map((rangeElem) => 
                 scaleValue >= rangeElem ? <span key={rangeElem.toString()}>{scaleType}</span> : null
             )}
         </div>
     );
+}
+
+function handleClickCareScale(scaleValue, careType) 
+{
+    const scaleLabel = ["peu", "modérement", "beaucoup"];
+    const scaleType = careType === "light" ? "de lumière" : "d'arrosage";
+    alert(`Cette plante requiert ${scaleLabel[scaleValue-1]} ${scaleType}`);
 }
 
 

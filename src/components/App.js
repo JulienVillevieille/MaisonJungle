@@ -1,4 +1,5 @@
 import Banner from './Banner';
+import Footer from './Footer';
 // import Cart from './Cart';
 import ShoppingList from './ShoppingList';
 
@@ -8,6 +9,7 @@ function App() {
       <Banner />
       {/* <Cart /> */}
       <ShoppingList />
+      <Footer />
     </div>
   );
 }

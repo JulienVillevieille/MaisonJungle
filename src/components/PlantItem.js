@@ -13,8 +13,8 @@ function PlantItem({name, cover, id, light, water}) {
             </div>
         </li>
     );
-
-    
 }
+
+
 
 export default PlantItem;
