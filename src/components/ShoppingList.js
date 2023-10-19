@@ -1,11 +1,13 @@
+import { useState } from 'react';
 import {plantList} from '../datas/plantList';
 
 import '../styles/ShoppingList.css';
+import Categories from './Categories';
 
 import PlantItem from './PlantItem';
 
 
-function ShoppingList() {
+function ShoppingList({cart, updateCart}) {
     // ====> Avec reduce() <====
     // Fonction reduce permet de parcourir tous les éléments de notre tableau plantList
     // const categories = plantList.reduce((acc, plant) => 
@@ -13,7 +15,7 @@ function ShoppingList() {
     //     // La fonction includes permet de ne pas avoir de doublon dans notre tableau
     // );
 
-    // ====> Autre façon de faire avec forEach() <====
+    const [activeCategory, setActiveCategory] = useState('');
     const categories = []; 
     plantList.forEach(function (plant) {
             if(categories.includes(plant.category) === false) {
@@ -22,23 +24,49 @@ function ShoppingList() {
         }
     );
 
+    function addToCart(name, price) {
+        const currentPlantAdded = cart.find((plant) => plant.name === name);
+        if(currentPlantAdded) {
+            const cartFilteredCurrentPlant = cart.filter(
+                (plant) => plant.name !== name
+            )
+            updateCart([
+                ...cartFilteredCurrentPlant, 
+                {name, price, amount: currentPlantAdded.amount + 1}
+            ])
+        } else {
+            updateCart([
+                ...cart,
+                {name, price, amount: 1}
+            ])
+        }
+    }
+
     return (
         <div className='lmj-shopping-list'>
-            <ul>
-                {categories.map((cat) => (
-                    <li key={cat}>{cat}</li>
-                ))}
-            </ul>
+
+            <Categories 
+                categories={categories}
+                setActiveCategory={setActiveCategory}
+                activeCategory={activeCategory}
+            />
+           
             <ul className='lmj-plant-list'>
-                {plantList.map((plant) => (
-                        <PlantItem 
-                            id={plant.id} 
-                            name={plant.name} 
-                            cover={plant.cover} 
-                            light={plant.light} 
-                            water={plant.water}
-                        />
-                ))}
+                {plantList.map((plant) => 
+                    !activeCategory || activeCategory === plant.category ? (
+                        <div key={plant.id}>
+                            <PlantItem
+                                id={plant.id}
+                                name={plant.name} 
+                                cover={plant.cover} 
+                                light={plant.light} 
+                                water={plant.water}
+                                price={plant.price}
+                            />
+                            <button onClick={() => addToCart(plant.name, plant.price)}>Ajouter</button>
+                        </div>
+                    ) : null
+                )}
             </ul>
         </div>
     );
